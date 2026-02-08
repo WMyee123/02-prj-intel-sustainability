@@ -1,1 +1,109 @@
-/* Add your CSS here */
+body {
+  margin: 0px;
+}
+
+/* Style the header */
+header {
+  background-color: #0066cc;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+/* Make the SVG logo small but visible */
+header img {
+  width: 120px;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+/* Style the heading and paragraph */
+header h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-transform: capitalize;
+  margin: 15px 0;
+  color: white;
+}
+
+header p {
+  font-size: 1.3em;
+  color: white;
+  max-width: 700px;
+  margin: 0 auto;
+}
+/* Make the section a flexbox container for cards */
+section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 40px;
+  margin: 40px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 400px;
+}
+
+/* Style the timeline cards as flexboxes */
+section div {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 1%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+/* Image column styling */
+section div img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* Content column - stacks headers and info vertically */
+section div .card-content {
+  display: flex;
+  border-width: 0rem;
+  box-shadow: none;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+}
+
+/* Headers row - displays h2 and h3 side by side */
+section div .card-headers {
+  display: flex;
+  display: inline;
+  border-width: 0rem;
+  box-shadow: none;
+  flex-direction: row;
+
+  gap: 20px;
+}
+
+/* Information column styling */
+section div h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #0066cc;
+  flex: 1;
+}
+
+section div h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+  flex: 1;
+}
+
+section div p {
+  margin: 0;
+  color: #666;
+  line-height: 1.5;
+}
