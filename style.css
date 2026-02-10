@@ -1,230 +1,329 @@
+/* ============================================
+   GLOBAL STYLES
+   Base resets and page-wide defaults.
+   ============================================ */
+
 html, body {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
+
+  /* Fill the full screen height.
+     100dvh adjusts for mobile browser bars (fallback: 100vh). */
   height: 100vh;
+  height: 100dvh;
+
   overflow: hidden;
+
+  /* Base font size scales fluidly with the screen width */
+  font-size: clamp(14px, 1.6vw, 20px);
 }
 
 body {
   display: flex;
   flex-direction: column;
+
+  /* Friendly, rounded sans-serif font */
+  font-family: 'Segoe UI', 'Nunito', 'Poppins', sans-serif;
 }
 
-/* Style the header */
+
+/* ============================================
+   HEADER
+   Blue banner with the Intel logo, title, and
+   subtitle. Sizes scale with the viewport.
+   ============================================ */
+
 header {
   background-color: #0066cc;
-  padding: 3vh 2vh;
+  padding: clamp(1vh, 1.5vw, 2vh) clamp(1vh, 2vw, 2vh);
   text-align: center;
+
+  /* Prevent the header from growing or shrinking */
   flex: 0 0 auto;
 }
 
-/* Make the SVG logo small but visible */
+/* Intel logo */
 header img {
-  width: 12vh;
+  width: clamp(5vh, 6vw, 10vh);
   height: auto;
   display: block;
-  margin: 0 auto 2vh;
+  margin: 0 auto clamp(0.5vh, 1vw, 1vh);
 }
 
-/* Style the heading and paragraph */
+/* Main heading */
 header h1 {
-  font-size: 2.5em;
+  font-size: clamp(1rem, 3vw, 2rem);
   font-weight: bold;
   text-transform: capitalize;
-  margin: 1.5vh 0;
+  margin: clamp(0.5vh, 0.8vw, 1vh) 0;
   color: white;
 }
 
+/* Subtitle / description */
 header p {
-  font-size: 1.3em;
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
   color: white;
-  max-width: 70vh;
+  max-width: 60%;
   margin: 0 auto;
 }
 
-/* Make the section a flexbox container for cards */
+
+/* ============================================
+   TIMELINE SECTION (large screens)
+   Horizontally scrolling row of cards.
+   ============================================ */
+
 section {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 2vh;
   padding: 4vh;
 
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex: 1;
-  scroll-snap-align: start;
+  /* Horizontal scroll with snap */
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-padding: 2vh;
-  scroll-snap-type: y mandatory;
-
-  /* ensure the scrollport padding doesn't hide snapped items */
+  scroll-snap-type: x mandatory;
 }
 
-/* Style the timeline cards as flexboxes */
-section div {
+
+/* ============================================
+   CARD STYLES (large screens)
+   Each card is a row: image + headers on the
+   left, description text on the right.
+
+   We use "section > div" so inner layout divs
+   (like .card-left) are not affected.
+   ============================================ */
+
+section > div {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
   gap: 2vh;
   padding: 1.5vh;
+
+  /* Border and shadow */
   border: 0.1vh solid #0066cc;
   border-radius: 0.8vh;
   box-shadow: 0 0.2vh 0.4vh rgba(0, 0, 0, 0.1);
-  width: 95%;
-  flex: 1 1 auto;
 
+  /* Fixed-width cards so ~1.5 show at a time */
+  flex: 0 0 60vw;
+  max-width: 60vw;
+  position: relative;
+
+  /* Scroll snap */
   scroll-snap-align: start;
-  scroll-snap-stop: never;
+
+  /* Smooth hover animation */
+  transition: all 0.3s ease;
 }
 
-/* Image column styling */
-section div img {
-  width: 15vh;
-  height: 15vh;
+/* Card hover — expand and lift */
+section > div:hover {
+  width: 100%;
+  box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+
+/* --- Card image ---
+   Scales with the viewport so it is larger on bigger screens. */
+section > div img {
+  width: clamp(10vh, 40vw, 40vh);
+  height: auto;
   object-fit: cover;
-  padding: 0.2vh;
   border-radius: 1vh;
+  display: block;
+  cursor: pointer;
   flex-shrink: 1;
+  aspect-ratio: 1 / 1;
 }
 
-/* Content column - stacks headers and info vertically */
-section div .card-content {
+
+/* --- Left column: image + headers stacked --- */
+section > div .card-left {
   display: flex;
-  border-width: 0rem;
-  box-shadow: none;
   flex-direction: column;
-  gap: 1.5vh;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
+  gap: 0.5vh;
+  flex-shrink: 0;
 }
 
-/* Headers row - displays h2 and h3 side by side */
-section div .card-headers {
+
+/* --- Headers (year + title) --- */
+section > div .card-headers {
   display: flex;
-  display: inline;
-  border-width: 0rem;
-  box-shadow: none;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 2vh;
-  min-width: 0;
+  flex-direction: column;
+  gap: 0.5vh;
 }
 
-/* Information column styling */
-section div h2 {
+/* Year heading */
+section > div h2 {
   margin: 0;
-  font-size: 1.5em;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
   color: #0066cc;
-  flex: 1;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
-section div h3 {
+/* Event title */
+section > div h3 {
   margin: 0;
-  font-size: 1.2em;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
   color: #333;
-  flex: 1;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
-section div p {
+
+/* --- Right column: description text --- */
+section > div .card-description {
   margin: 0;
   color: #666;
-  font-size: 1.1em;
-  line-height: 1.5em;
+  font-size: clamp(0.8rem, 1.8vw, 1.1rem);
+  line-height: 1.5;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
 }
 
-/* Style the last paragraph */
+
+/* --- Footer paragraph --- */
 body > p {
   text-align: center;
   color: #888;
 }
 
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-  /* Style the header */
+
+/* ============================================
+   RESPONSIVE — SMALL SCREENS (max-width 480px)
+   Cards stack vertically, scroll direction
+   switches to vertical, and the layout adapts
+   for narrower viewports.
+   ============================================ */
+
+@media (max-width: 480px) {
+
+  /* --- Header: larger padding + centered text --- */
   header {
-    background-color: #0066cc;
-    padding: 3vh 2vh;
+    padding: clamp(2vh, 4vw, 4vh) clamp(1.5vh, 3vw, 3vh);
     text-align: center;
-    flex: 0 0 auto;
   }
 
-  /* Style the heading and paragraph */
+  header img {
+    width: clamp(9vh, 18vw, 14vh);
+    height: auto;
+  }
+
   header h1 {
-    font-size: 1.5em;
-    margin: 1vh 0;
+    font-size: clamp(1.3em, 5.5vw, 1.8em);
+    margin: clamp(0.5vh, 2vw, 1vh) 0;
+    text-align: center;
   }
 
   header p {
-    font-size: 0.8em;
-    max-width: 60vh;
+    font-size: clamp(0.8em, 3.5vw, 0.95em);
+    max-width: 90vw;
+    text-align: center;
+    margin: 0 auto;
   }
 
-  /* Set scroll area height explicitly and scale everything relative to it */
+
+  /* --- Section: vertical scroll --- */
   section {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: auto;
-    height: 60vmin;
-    gap: 1.5vmin;
-    padding: 2vmin;
-    scroll-snap-align: start;
-    scroll-snap-type: x-mandatory;
-  }
-
-  /* Stack card content vertically with image on top */
-  section div {
     flex-direction: column;
-    flex-grow: 1;
-    
-    width: auto;
-    min-width: 50vmin;
-    gap: 1.5vmin;
-    padding: 1.2vmin;
-    border-radius: 0.6vmin;
-
+    overflow-x: hidden;
+    overflow-y: auto;
     height: auto;
-    min-height: unset;
+    min-height: 0;
+    gap: clamp(1vmin, 2vw, 1.5vmin);
+    padding: clamp(1vmin, 2vw, 1.5vmin);
+    scroll-snap-type: y mandatory;
   }
 
-  /* Center the image on smaller screens */
-  section div img {
-    width: 100%;
+
+  /* --- Cards: full-width, stacked vertically --- */
+  section > div {
+    flex-direction: column;
+    align-items: center;
+    gap: 1vmin;
+    padding: 0.5vh;
+    overflow: hidden;
+
+    /* Full-width cards */
+    flex: 0 0 auto;
+    width: 95vw;
+    max-width: 95vw;
     height: auto;
-    border-radius: 0.8vmin;
+
+    border-radius: clamp(0.4vmin, 1vw, 0.6vmin);
+
+    /* Scroll snap per card */
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
-  /* Scale spacing relative to scroll area */
-  section div .card-content {
-    gap: 1.2vmin;
-    flex-shrink: 1;
-    flex-grow: 1;
+  /* Card hover on mobile */
+  section > div:hover {
+    box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.3);
+    z-index: 10;
   }
 
-  section div .card-headers {
-    gap: 1.5vmin;
+
+  /* --- Card image: centered, 75% of card width --- */
+  section > div img {
+    width: 40%;
+    height: auto;
+    flex: 0 0 auto;
+    object-fit: cover;
+    border-radius: clamp(0.6vmin, 1vw, 0.8vmin);
+    aspect-ratio: 1 / 1;
   }
 
-  /* Reduce text sizes on smaller screens */
-  section div h2 {
-    font-size: 1.2em;
+
+  /* --- Left column: stacks under image, centered --- */
+  section > div .card-left {
+    flex-direction: column;
+    flex: 0 0 auto;
+    min-width: 0;
+    overflow: hidden;
+    width: 50%;
+    max-width: none;
+    align-items: center;
+    text-align: center;
   }
 
-  section div h3 {
-    font-size: 1.7em;
+  /* Headers centered */
+  section > div .card-headers {
+    gap: clamp(1vmin, 2vw, 1.5vmin);
+    align-items: center;
+    text-align: center;
   }
 
-  section div p {
-  font-size: clamp(0.8rem, 4vw, 1.5rem);
-  line-height: 1.5;
+
+  /* --- Description: visible and centered --- */
+  section > div p {
+    flex: 0 0 auto;
+    max-width: none;
+    opacity: 1;
+    overflow: hidden;
+    font-size: clamp(0.75rem, 3vw, 1.5rem);
+    line-height: 1.5;
+    text-align: center;
+    padding: 0 2vmin;
+  }
+
+
+  /* --- Smaller text sizes --- */
+  section > div h2 {
+    font-size: clamp(1em, 4vw, 1.2em);
+  }
+
+  section > div h3 {
+    font-size: clamp(1em, 5vw, 1.7em);
+  }
 }
-}
-
-/* @media(max-width: 1024px) {
-  
-} */
