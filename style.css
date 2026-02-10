@@ -109,10 +109,11 @@ section > div {
   border-radius: 0.8vh;
   box-shadow: 0 0.2vh 0.4vh rgba(0, 0, 0, 0.1);
 
-  /* Fixed-width cards so ~1.5 show at a time */
-  flex: 0 0 60vw;
-  max-width: 60vw;
+  /* Fixed-width cards — compact when not hovered */
+  flex: 0 0 auto;
+  max-width: auto;
   position: relative;
+  overflow: hidden;
 
   /* Scroll snap */
   scroll-snap-align: start;
@@ -121,11 +122,17 @@ section > div {
   transition: all 0.3s ease;
 }
 
-/* Card hover — expand and lift */
+/* Card hover — expand to show description */
 section > div:hover {
-  width: 100%;
+  flex: 0 0 55vw;
+  max-width: 55vw;
   box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.3);
   z-index: 10;
+}
+
+section > div:hover .card-description {
+  opacity: 1;
+  max-width: 50vw;
 }
 
 
@@ -178,17 +185,31 @@ section > div h3 {
 }
 
 
-/* --- Right column: description text --- */
-section > div .card-description {
+/* --- Right column: description text ---
+   Hidden by default, revealed on hover. */
+section > div p {
   margin: 0;
   color: #666;
-  font-size: clamp(0.8rem, 1.8vw, 1.1rem);
   line-height: 1.5;
   word-wrap: break-word;
   overflow-wrap: break-word;
   flex: 1;
   min-width: 0;
   text-align: center;
+
+  /* Hidden by default */
+  opacity: 0;
+  max-width: 0;
+  font-size: 0px;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-width 0.3s ease;
+}
+
+/* Show description on hover */
+section > div:hover p {
+  opacity: 1;
+  font-size: clamp(0.8rem, 1.8vw, 1.1rem);
+  max-width: 50vw;
 }
 
 
@@ -315,6 +336,8 @@ body > p {
     line-height: 1.5;
     text-align: center;
     padding: 0 2vmin;
+
+    color: #0f0f0f;
   }
 
 
